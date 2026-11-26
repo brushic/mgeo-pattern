@@ -19,7 +19,20 @@ html,body{margin:0;height:100%;background:#07080f;color:var(--ink);font:13px/1.3
 #hud{position:absolute;left:14px;bottom:12px;color:var(--mute);font-size:12px;pointer-events:none;text-shadow:0 1px 2px #000}
 #hint{position:absolute;right:14px;bottom:12px;max-width:calc(100% - 300px);text-align:right;color:var(--mute);font-size:12px;pointer-events:none;text-shadow:0 1px 2px #000}
 #panel{width:368px;flex:none;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-.head{padding:16px 20px 12px}
+.head{padding:16px 20px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.helpBtn{flex:none;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font:inherit;font-size:12.5px;cursor:pointer}
+.helpBtn:hover{border-color:#43D7FF88;color:var(--ocean)}
+#help{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:10}
+#help.on{display:flex}
+#help .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:min(640px,92vw);max-height:86vh;display:flex;flex-direction:column}
+#help .hh{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1px solid var(--line)}
+#help .hh b{font-size:15px;font-weight:650}
+#help .hb{overflow-y:auto;padding:6px 22px 20px;line-height:1.5;font-size:13px}
+#help h4{margin:18px 0 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ocean);font-weight:600}
+#help p{margin:0 0 6px;color:var(--ink)}
+#help ul{margin:0 0 6px;padding-left:18px}#help li{margin:0 0 4px}
+#help kbd{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:0 5px;font:inherit;font-size:12px}
+#help .mu{color:var(--mute)}
 h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.01em}
 .sub{color:var(--mute);margin:2px 0 0;font-size:12px}
 #tabs{display:flex;padding:0 12px;border-bottom:1px solid var(--line);gap:2px}
@@ -49,6 +62,8 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 0 5px #43D7FF40}
 select,input[type=number],input[type=text],button.btn,.fileLabel{width:100%;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;transition:border-color .12s,background .12s}
 select{appearance:none;-webkit-appearance:none;padding-right:28px;background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 15px) 55%,calc(100% - 10px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 select:focus,input:focus-visible,button:focus-visible{outline:2px solid #43D7FF66;outline-offset:1px}
 button.btn{cursor:pointer;text-align:center}
 button.btn:hover,.fileLabel:hover,select:hover,input[type=number]:hover,input[type=text]:hover{border-color:#43D7FF88}
@@ -95,12 +110,33 @@ audio{width:100%;margin:8px 0 12px;height:34px;display:none}
 <div id="app">
   <div id="stage"><canvas id="cv"></canvas><svg id="logo" preserveAspectRatio="xMidYMid meet" viewBox="714 402 322 279" xmlns="http://www.w3.org/2000/svg"><path d="M 954.3125 541.390625 L 875.367188 404.65625 L 796.421875 541.390625 L 717.476562 678.128906 L 1033.257812 678.128906 Z" fill="#43D7FF"/><path d="M 875.367188 475.566406 C 873.109375 475.566406 871.277344 477.398438 871.277344 479.652344 L 871.277344 480.195312 C 868.953125 478.800781 867.378906 476.277344 867.378906 473.367188 C 867.378906 468.957031 870.957031 465.382812 875.367188 465.382812 C 879.777344 465.382812 883.351562 468.957031 883.351562 473.367188 C 883.351562 476.277344 881.777344 478.800781 879.453125 480.195312 L 879.453125 479.652344 C 879.453125 477.398438 877.621094 475.566406 875.367188 475.566406 M 961.148438 596.09375 C 953.902344 603.015625 943.777344 610.730469 934.421875 616.398438 C 933.226562 617.121094 933.179688 618.824219 934.328125 619.617188 C 935.917969 620.707031 937.324219 621.53125 938.304688 622.152344 C 925.300781 634.136719 905.761719 640.375 884.007812 641.660156 L 884.007812 539.703125 L 917.460938 532.261719 C 918.222656 532.09375 918.765625 531.414062 918.765625 530.632812 L 918.765625 524.890625 C 918.765625 523.972656 918.019531 523.222656 917.097656 523.222656 L 884.007812 523.222656 L 884.007812 495.871094 C 884.007812 494.949219 883.261719 494.203125 882.339844 494.203125 L 879.453125 494.203125 L 879.453125 488.789062 C 886.289062 486.980469 891.332031 480.773438 891.332031 473.367188 C 891.332031 464.550781 884.183594 457.398438 875.367188 457.398438 C 866.546875 457.398438 859.398438 464.550781 859.398438 473.367188 C 859.398438 480.773438 864.445312 486.980469 871.277344 488.789062 L 871.277344 494.203125 L 868.394531 494.203125 C 867.472656 494.203125 866.722656 494.949219 866.722656 495.871094 L 866.722656 523.222656 L 833.636719 523.222656 C 832.714844 523.222656 831.96875 523.972656 831.96875 524.890625 L 831.96875 530.632812 C 831.96875 531.414062 832.511719 532.09375 833.273438 532.261719 L 866.722656 539.703125 L 866.722656 641.660156 C 844.96875 640.375 825.433594 634.136719 812.425781 622.152344 C 813.40625 621.53125 814.816406 620.707031 816.402344 619.617188 C 817.554688 618.824219 817.503906 617.121094 816.308594 616.398438 C 806.953125 610.730469 796.828125 603.015625 789.585938 596.09375 C 788.175781 594.746094 785.777344 596.210938 786.460938 598.039062 C 800.53125 635.765625 836.09375 658.367188 875.367188 658.367188 C 914.640625 658.367188 950.199219 635.765625 964.273438 598.039062 C 964.953125 596.210938 962.554688 594.746094 961.148438 596.09375 Z" fill="#0F1021"/><path d="M 879.453125 480.195312 C 881.78125 478.800781 883.351562 476.277344 883.351562 473.367188 C 883.351562 468.957031 879.777344 465.382812 875.367188 465.382812 C 870.957031 465.382812 867.382812 468.957031 867.382812 473.367188 C 867.382812 476.277344 868.953125 478.800781 871.277344 480.195312 L 871.277344 479.652344 C 871.277344 477.398438 873.109375 475.566406 875.367188 475.566406 C 877.625 475.566406 879.453125 477.398438 879.453125 479.652344 Z" fill="#43D7FF"/></svg><canvas id="giz" title="Наведите на цветное кольцо — подсветится ось, тяните вдоль него. Внешнее кольцо — поворот в плоскости экрана. Шар — свободное вращение. Двойной клик — сброс."></canvas><div id="hud"></div><div id="hint">тяните — вращение · Shift — поворот в плоскости · колесо — масштаб · зажатое колесо или пробел — сдвиг · двойной клик — сброс ракурса</div></div>
   <aside id="panel">
-    <header class="head"><h1>Bathyscan 9000</h1><p class="sub">Морская геодезия · генератор точечной графики</p></header>
+    <header class="head"><div><h1>Bathyscan 9000</h1><p class="sub">Морская геодезия</p></div><button class="helpBtn" id="helpBtn" title="Руководство">Справка</button></header>
     <nav id="tabs"></nav>
     <div id="ui"></div>
     <footer id="dock"><div class="grid2" id="dockMain"></div><div id="status"></div></footer>
   </aside>
 </div>
+<div id="help"><div class="box"><div class="hh"><b>Как пользоваться Bathyscan 9000</b><button class="helpBtn" id="helpClose">Закрыть</button></div><div class="hb">
+<h4>Идея</h4><p>Инструмент строит объёмную точечную графику, похожую на снимок морского дна, и выгружает её как вектор (SVG) для печати или как PNG с прозрачным фоном. Точки лежат на сетке и поднимаются рельефом, а размер точки меняется от высоты и глубины.</p>
+<h4>Быстрый старт</h4><ul><li>На вкладке <b>Форма</b> выберите тип графики.</li><li>Нажмите <b>Новая вариация</b>, пока не понравится рисунок.</li><li>Поверните сцену мышью, подберите точки и цвет.</li><li>Внизу нажмите <b>Скачать SVG</b>.</li></ul>
+<h4>Вкладки панели</h4><ul>
+<li><b>Форма</b> — тип графики и рельеф. Тип шума задаёт характер поверхности, «Масштаб» — размер деталей, «Высота рельефа» — перепады, «Искажение» — извилистость. Seed — номер варианта: то же число даёт тот же рисунок. «Детализация шума» — тонкие настройки. У «Числа» и «Титаника» появляются свои параметры: число и толщина цифры, размер и крен корабля.</li>
+<li><b>Точки</b> — диаметр, плотность (чем больше, тем мельче сетка), разброс размеров. «Скрывать перекрытые точки» оставляет на пересечениях только ближний слой. В «Распределении» — затухание точек к краям, размер по шуму и глубине, разрежение. Здесь же цвет фона и точек.</li>
+<li><b>Камера</b> — готовые ракурсы, масштаб, «Не масштабировать точки при зуме», свои сохранённые ракурсы и точная настройка углов.</li>
+<li><b>Движение</b> — анимация и звук. Запустите анимацию или включите «Тест-сигнал» либо загрузите аудиофайл: рисунок будет перекатываться волнами в такт. В «Привязке частот» выбирается, какой диапазон звука двигает какой параметр.</li>
+<li><b>Экспорт</b> — формат кадра, фон внутри SVG, размер PNG, сохранение и загрузка параметров сцены.</li></ul>
+<h4>Управление мышью</h4><ul>
+<li>Тяните по сцене — вращение. С зажатым <kbd>Shift</kbd> — поворот в плоскости экрана.</li>
+<li>Колесо — масштаб. Зажатое колесо или <kbd>Пробел</kbd> с перетаскиванием — сдвиг.</li>
+<li>Двойной клик — сброс ракурса.</li>
+<li>Сфера в углу: наведите на цветное кольцо и тяните вдоль него — вращение вокруг этой оси; внешнее кольцо — поворот в плоскости; шар — свободное вращение.</li></ul>
+<h4>Экспорт для печати</h4><ul>
+<li><b>Скачать SVG</b> — вектор, каждая точка отдельный круг. Размер кадра задаётся форматом на вкладке «Экспорт». «Фон внутри SVG» выключите, если фон не нужен.</li>
+<li><b>Скачать PNG</b> — прозрачный фон, размер задаётся шириной и высотой в пикселях. <b>Копировать</b> кладёт результат в буфер обмена.</li>
+<li>Если браузер не даёт скачать файл, используйте «Копировать SVG» и вставьте текст в пустой файл с расширением .svg.</li></ul>
+<h4>Сохранить и повторить</h4><p>На вкладке «Экспорт» можно скачать параметры сцены в .json и позже загрузить их обратно, чтобы получить тот же рисунок. Настройки также запоминаются в браузере.</p>
+<p class="mu">Совет: перед печатью проверьте плотность точек и минимальный диаметр точки на нужном размере оттиска.</p>
+</div></div></div>
 <div id="modal"><div class="box"><div class="lbl" id="modalTitle">Скопируйте текст (Ctrl+C)</div><textarea id="modalText" readonly></textarea><div class="grid2" style="margin-top:10px"><button class="btn" id="modalSel">Выделить всё</button><button class="btn" id="modalClose">Закрыть</button></div></div></div>
 <script>
 (() => {
@@ -886,6 +922,7 @@ function copyText(text, okMsg) {
   const fallback = () => { $('#modalText').value = text; $('#modal').style.display = 'flex'; $('#modalText').select(); setStatus('Буфер обмена недоступен: текст показан в окне, скопируйте вручную.'); };
   try { navigator.clipboard.writeText(text).then(() => setStatus(okMsg), fallback); } catch (e) { fallback(); }
 }
+$('#helpBtn').onclick = () => $('#help').classList.add('on'); $('#helpClose').onclick = () => $('#help').classList.remove('on'); $('#help').addEventListener('mousedown', e => { if (e.target.id === 'help') $('#help').classList.remove('on'); }); document.addEventListener('keydown', e => { if (e.key === 'Escape') $('#help').classList.remove('on'); });
 $('#modalClose').onclick = () => { $('#modal').style.display = 'none'; };
 $('#modalSel').onclick = () => { $('#modalText').select(); };
 function setStatus(t) { $('#status').textContent = t; }
